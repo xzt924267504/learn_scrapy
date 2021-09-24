@@ -1,0 +1,102 @@
+				<li><a href="/home/textlist/7/836-1.html" class="sel" target="_blank">都市情感</a></li>
+				<li><a href="/home/textlist/7/837-1.html" target="_blank">人妻熟女</a></li>
+				<li><a href="/home/textlist/7/838-1.html" target="_blank">玄幻武侠</a></li>
+				<li><a href="/home/textlist/7/839-1.html" target="_blank">另类其它</a></li>
+				<li><a href="/home/textlist/7/840-1.html" target="_blank">明星校园</a></li>
+				<li><a href="/home/textlist/7/841-1.html" target="_blank">家庭乱伦</a></li>
+				<li><a href="/home/textlist/7/842-1.html" target="_blank">成人小说</a></li>
+				<li><a href="/home/textlist/7/843-1.html" target="_blank">暴力虐待
+
+
+D:\迅雷下载\我真没想当救世主啊shukeba.com_210422\我真没想当救世主啊(书客吧小说shukeba.com).txt  1944
+
+
+
+
+    def parse(self, response):
+        url_list = response.css('.name a::attr(href)').getall()
+        for i in url_list:
+            url1 = 'https://www.015caiji.com' + i
+            yield Request (url1,callback=self.parse2)
+
+        # next_page = response.css('.pager div a::attr(href)').getall()[-2]
+        # last_page = response.css('.pager div a::attr(href)').getall()[-1]
+        # next_page_url = 'https://015caiji.com' + next_page
+        # last_page_url = 'https://015caiji.com' + last_page
+
+
+        a = response.xpath('//*[@id="hellobox"]/div[2]/div/a[2]')
+        next_page = 'https://www.015caiji.com'+ a.css('a::attr(href)').get()
+        b = response.xpath('//*[@id="hellobox"]/div[2]/div/a[3]')
+        last_page ='https://www.015caiji.com'+ b.css('a::attr(href)').get()
+        if next_page != last_page:
+            # 下一页
+            yield response.follow(next_page, callback=self.parse)
+            # yield scrapy.Request(response.urljoin(last_page), callback=self.parse)
+
+    def parse2(self,response):
+        xs_name = response.css('.title::text').get()
+        xs_zhengwen = response.css('.nbodys').get()
+        xs_url = response.url
+
+        item = Qsqs37Item()
+        item["xs_name"] = xs_name
+        item["xs_zhengwen"] = xs_zhengwen
+        item["xs_url"] = xs_url
+
+        yield item
+
+
+
+"""
+    def parse(self, response):
+
+        next_page = response.css('.pager div a::attr(href)').getall()[-2]
+        last_page = response.css('.pager div a::attr(href)').getall()[-1]
+        next_page_url = 'https://015caiji.com' + next_page
+        last_page_url = 'https://015caiji.com' + last_page
+
+
+        # a = response.xpath('//*[@id="hellobox"]/div[2]/div/a[2]')
+        # next_page_url = 'https://015caiji.com'+ a.css('a::attr(href)').get()
+        # b = response.xpath('//*[@id="hellobox"]/div[2]/div/a[3]')
+        # last_page_url ='https://015caiji.com'+ b.css('a::attr(href)').get()
+        if next_page_url is not None:
+            # 下一页
+            yield response.follow(next_page_url, callback=self.parse2)
+            # yield scrapy.Request(response.urljoin(next_page_url), callback=self.parse2)
+
+    def parse2(self,response):
+        url_list = response.css('.name a::attr(href)').getall()
+        for i in url_list:
+            url1 = 'https://015caiji.com' + i
+            yield Request (url1,callback=self.parse3)
+
+    def parse3(self,response):
+        xs_name = response.css('.title::text').get()
+        xs_zhengwen = response.css('.nbodys').get()
+        xs_url = response.url
+
+        item = Qsqs37Item()
+        item["xs_name"] = xs_name
+        item["xs_zhengwen"] = xs_zhengwen
+        item["xs_url"] = xs_url
+
+        yield item
+
+
+
+
+"""
+
+
+
+
+
+
+
+
+
+
+
+
